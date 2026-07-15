@@ -19,7 +19,7 @@
 #define PAYLOAD_SIZE 160
 #define WINDOW_SIZE 256
 #define FEC_A 1
-#define FEC_B 3
+#define FEC_B 2
 
 void forward_packet(uint32_t seq, uint8_t *payload, int fd, struct sockaddr_in *addr) {
     uint8_t buf[4 + PAYLOAD_SIZE];

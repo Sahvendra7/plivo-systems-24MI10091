@@ -18,7 +18,7 @@
 #define PAYLOAD_SIZE 160
 #define HISTORY_SIZE 16
 #define FEC_A 1
-#define FEC_B 3
+#define FEC_B 2
 
 int main(void) {
     int in_fd = socket(AF_INET, SOCK_DGRAM, 0);

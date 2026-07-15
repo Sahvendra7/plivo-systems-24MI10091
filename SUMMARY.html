@@ -26,8 +26,8 @@
     <p>The bandwidth limit dictates that total bytes traversing the relay cannot exceed 2.0x the raw stream size (which translates to 320 bytes allowed per 160-byte frame). A standard packet carrying a 4-byte sequence number and a 160-byte payload totals 164 bytes. This leaves exactly 156 bytes of budget per packet, making it mathematically impossible to include a full 160-byte FEC block in <em>every</em> packet. </p>
     <p><strong>Solution:</strong> We attach a 160-byte FEC block to <strong>95%</strong> of transmitted packets. This yields an average packet size of 316 bytes, operating safely at <code>1.97x</code> overhead.</p>
 
-    <h2>3. The FEC Design: XOR(seq-1, seq-3)</h2>
-    <p>Rather than simply duplicating the previous frame or XORing adjacent frames, the sender computes the parity block as <code>Payload[seq - 1] XOR Payload[seq - 3]</code>. </p>
+    <h2>3. The FEC Design: XOR(seq-1, seq-2)</h2>
+    <p>Rather than simply duplicating the previous frame or XORing adjacent frames, the sender computes the parity block as <code>Payload[seq - 1] XOR Payload[seq - 2]</code>. </p>
     <p>By spacing the XOR parity across non-adjacent frames, the protocol achieves high resilience against independent drops as well as consecutive burst losses (up to length 2). If a burst loss wipes out both <code>seq</code> and <code>seq+1</code>, the receiver can still iteratively recover them both when <code>seq+2</code> and <code>seq+3</code> arrive.</p>
 
     <h2>4. Receiver Architecture</h2>
@@ -39,7 +39,7 @@
     </ul>
 
     <h2>5. Results</h2>
-    <p>When graded at a <code>DELAY_MS</code> of <strong>140ms</strong>, this architecture seamlessly absorbs Profile B's 80ms network latency along with the maximum 60ms FEC reconstruction window, culminating in an overall frame miss rate of <strong>0.40%</strong>.</p>
+    <p>When graded at a <code>DELAY_MS</code> of <strong>100ms</strong>, this architecture seamlessly absorbs Profile B's 80ms network latency along with the maximum 40ms FEC reconstruction window, culminating in an overall frame miss rate of <strong>0.93%</strong>.</p>
 
 </body>
 </html>
