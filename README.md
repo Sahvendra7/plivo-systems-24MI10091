@@ -18,8 +18,8 @@ Traditional NACK-based ARQ protocols were fundamentally rejected for this archit
 
 Instead, this implementation relies on **Forward Error Correction (FEC)** via an `XOR(1,2)` dual-coverage parity scheme:
 *   $P_k = \text{Payload}_{k-1} \oplus \text{Payload}_{k-2}$
-*   Because the total bandwidth limit is precisely $2.0x$, the sender is forced to intentionally skip sending the parity block on ~2.5% of the packets to accommodate UDP/Sequence headers while maintaining a `1.97x` bandwidth overhead limit.
-*   Unlike `N-1` duplication which leaves "bandwidth holes" 100% unprotected, the dual-coverage of `XOR(1,2)` ensures that even if we skip parity on packet `k` to save bandwidth, frame `k-1` remains redundantly protected by packet `k+1`.
+*   Because the total bandwidth limit is precisely $2.0x$, the sender is forced to intentionally skip sending the parity block on **5%** of the packets to accommodate UDP/Sequence headers while maintaining a `1.97x` bandwidth overhead limit.
+*   Unlike `N-1` duplication which leaves "bandwidth holes" 100% unprotected, the dual-coverage of `XOR(1,2)` ensures that even if we skip parity on packet `k` to save bandwidth, frame `k-1` remains protected by the parity in packet `k+1`, and frame `k-2` remains protected by the parity in packet `k-1`.
 
 The receiver uses a `WINDOW_SIZE=256` constant-time / constant-memory cyclic array to perform iterative O(N) parity recovery upon the arrival of any FEC block, entirely removing the need for a local jitter playout scheduler.
 
