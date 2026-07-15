@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Build artifacts and logs
+sender
+receiver
+playout_log.json
+relay_stats.json
+sim.py
